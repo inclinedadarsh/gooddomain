@@ -11,7 +11,9 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
+		"@ai-sdk/google": "^1.0.3",
 		"@radix-ui/react-slot": "^1.1.0",
+		"ai": "^4.0.3",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
 		"husky": "^9.1.7",
