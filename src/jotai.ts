@@ -6,7 +6,9 @@ export const isLoadingAtom = atom(false);
 type Domain = {
 	projectName: string;
 	domain: string;
-	description: string;
 	language: string;
+	meaning: string;
+	tldCountry: string;
 };
 export const domainsAtom = atom<Domain[]>([]);
+export const keywordsAtom = atom<string[]>([]);
