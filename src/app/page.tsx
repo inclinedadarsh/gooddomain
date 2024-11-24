@@ -3,19 +3,33 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ViewContainer } from "@/components/ui/view-container";
-import { descriptionAtom, isLoadingAtom } from "@/jotai";
+import { descriptionAtom, domainsAtom, isLoadingAtom } from "@/jotai";
 import { useAtom } from "jotai";
 import { Loader2 } from "lucide-react";
 
 export default function Home() {
 	const [description, setDescription] = useAtom(descriptionAtom);
 	const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
+	const [domains, setDomains] = useAtom(domainsAtom);
 
-	const handleClick = () => {
+	const handleClick = async () => {
 		setIsLoading(true);
-		setTimeout(() => {
-			setIsLoading(false);
-		}, 2000);
+		try {
+			await fetch("/api/domains", {
+				method: "POST",
+				body: JSON.stringify({ description }),
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}).then(response => {
+				response.json().then(json => {
+					setDomains(json.domains);
+					setIsLoading(false);
+				});
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -54,6 +68,28 @@ export default function Home() {
 					)}
 				</Button>
 			</div>
+			{domains.length > 0 && (
+				<div className="mt-10">
+					<h2 className="text-3xl font-bold text-center">
+						Here are some cool domain names for you!
+					</h2>
+					<div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+						{domains.map(domain => (
+							<div
+								key={domain.domain}
+								className="bg-card rounded-lg p-5"
+							>
+								<h3 className="text-xl font-bold">
+									{domain.projectName}
+								</h3>
+								<p className="text-muted-foreground">
+									{domain.description}
+								</p>
+							</div>
+						))}
+					</div>
+				</div>
+			)}
 		</ViewContainer>
 	);
 }
