@@ -10,7 +10,7 @@ import {
 	keywordsAtom,
 } from "@/jotai";
 import { useAtom } from "jotai";
-import { Loader2, X } from "lucide-react";
+import { Earth, Info, Languages, Loader2, X } from "lucide-react";
 
 export default function Home() {
 	const [description, setDescription] = useAtom(descriptionAtom);
@@ -61,14 +61,14 @@ export default function Home() {
 	};
 
 	return (
-		<ViewContainer>
-			<h1 className="text-5xl sm:text-6xl lg:text-7xl text-center mt-20 font-bold">
+		<ViewContainer className="mb-10">
+			<h1 className="text-5xl sm:text-6xl lg:text-8xl text-center mt-10 font-serif font-bold leading-tight">
 				Find domains,
 				<br />
-				<span className="italic">easily!</span>
+				<span className="text-primary">easily!</span>
 			</h1>
 			<p className="max-w-xl text-center mx-auto my-10 text-muted-foreground">
-				Just put the description of your project to get some project
+				Enter a few keywords related to your project to get some project
 				name ideas along with their creative domain names!
 			</p>
 			<div className="mx-auto mt-10 max-w-xl">
@@ -90,7 +90,7 @@ export default function Home() {
 						{keywords.map(keyword => (
 							<div
 								key={keyword}
-								className="flex items-center gap-1 bg-secondary px-3 py-1 rounded-full"
+								className="flex items-center gap-1 px-3 py-1 rounded-full border-border border"
 							>
 								<span>{keyword}</span>
 								<button
@@ -123,45 +123,57 @@ export default function Home() {
 					)}
 				</Button>
 			</div>
-			{domains.length > 0 && (
-				<div className="mt-10">
-					<h2 className="text-3xl font-bold text-center">
-						Here are some cool domain names for you!
-					</h2>
-					<div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-						{domains.map(domain => (
-							<div
-								key={domain.domain}
-								className="bg-card hover:bg-card/80 transition-colors rounded-lg p-5 border"
-							>
-								<div className="space-y-4">
-									<div>
-										<h3 className="text-2xl font-bold tracking-tight">
-											{domain.projectName}
-										</h3>
-										<p className="text-lg font-mono text-primary">
-											{domain.domain}
-										</p>
-									</div>
-									<div className="space-y-2">
+			<div className="my-10">
+				{domains.length > 0 && (
+					<div className="">
+						<h2 className="text-3xl font-bold text-center">
+							Here are some{" "}
+							<span className="font-serif text-primary">
+								cool domain names
+							</span>{" "}
+							for you!
+						</h2>
+						<div className="my-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+							{domains.map(domain => (
+								<div
+									key={domain.domain}
+									className="bg-card hover:-translate-y-2 transition-transform rounded-lg p-5 border shadow"
+								>
+									<div className="space-y-4">
+										<div>
+											<h3 className="text-2xl font-bold tracking-tight">
+												{domain.projectName}
+											</h3>
+											<p className="text-lg text-primary font-serif">
+												{domain.domain}
+											</p>
+										</div>
 										<p className="text-sm text-muted-foreground">
 											{domain.meaning}
 										</p>
 										<div className="flex gap-2">
-											<span className="text-xs px-2 py-1 rounded-full bg-secondary">
+											<span className="text-sm px-3 py-1 rounded-full flex gap-2 border-border border items-center">
+												<Languages size={16} />{" "}
 												{domain.language}
 											</span>
-											<span className="text-xs px-2 py-1 rounded-full bg-secondary">
-												{domain.tldCountry}
-											</span>
+											{domain.language !== "English" && (
+												<span className="text-sm px-3 py-1 rounded-full flex gap-2 border-border border items-center">
+													<Earth size={16} />{" "}
+													{domain.tldCountry}
+												</span>
+											)}
 										</div>
 									</div>
 								</div>
-							</div>
-						))}
+							))}
+						</div>
+						<p className="flex justify-center items-center gap-2 text-muted-foreground">
+							<Info size={18} /> GoodDomains can produce incorrect
+							results.
+						</p>
 					</div>
-				</div>
-			)}
+				)}
+			</div>
 		</ViewContainer>
 	);
 }
