@@ -9,10 +9,12 @@ const Navbar = () => {
 		<nav id="navbar" className="my-10">
 			<ViewContainer className="flex justify-between items-center">
 				<Link
-					className="font-bold text-xl"
+					className="font-bold text-xl font-serif tracking-wider"
 					href="https://www.gooddoma.in/"
 				>
-					GoodDomain
+					GoodDoma
+					<span className="text-sm text-muted-foreground">(.)</span>
+					in
 				</Link>
 				<div className="flex items-center gap-4">
 					<Link
