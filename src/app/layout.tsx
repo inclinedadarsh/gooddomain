@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { Analytics } from "@vercel/analytics/react";
+import { Toaster } from "sonner";
 
 const gambarino = localFont({
 	src: "./fonts/Gambarino-Regular.woff",
@@ -32,6 +33,7 @@ export default function RootLayout({
 			>
 				<Navbar />
 				{children}
+				<Toaster richColors position="top-center" />
 				<Analytics />
 			</body>
 		</html>

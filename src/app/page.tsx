@@ -11,6 +11,7 @@ import {
 } from "@/jotai";
 import { useAtom } from "jotai";
 import { Earth, Info, Languages, Loader2, X } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Home() {
 	const [description, setDescription] = useAtom(descriptionAtom);
@@ -42,19 +43,34 @@ export default function Home() {
 	const handleClick = async () => {
 		setIsLoading(true);
 		try {
-			await fetch("/api/domains", {
+			const response = await fetch("/api/domains", {
 				method: "POST",
 				body: JSON.stringify({ keywords }),
 				headers: {
 					"Content-Type": "application/json",
 				},
-			}).then(response => {
-				response.json().then(json => {
-					setDomains(json.domains);
-				});
 			});
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(
+					errorData.message || "Failed to generate domains",
+				);
+			}
+
+			const data = await response.json();
+			if (!data.domains || !Array.isArray(data.domains)) {
+				throw new Error("Invalid response format");
+			}
+
+			setDomains(data.domains);
 		} catch (error) {
-			console.log(error);
+			console.error("Domain generation error:", error);
+			toast.error(
+				error instanceof Error
+					? error.message
+					: "Failed to generate domain suggestions",
+			);
 		} finally {
 			setIsLoading(false);
 		}

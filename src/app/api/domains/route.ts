@@ -58,26 +58,63 @@ const systemPrompt =
 	"Now, provide your keywords, and I will generate creative domain name suggestions following these guidelines.";
 
 export async function POST(req: Request) {
-	const { keywords }: { keywords: string[] } = await req.json();
-
-	const promptString = keywords.join(", ");
-
-	const result = await generateObject({
-		model: google("gemini-1.5-flash-latest"),
-		system: systemPrompt,
-		prompt: promptString,
-		schema: z.object({
-			domains: z.array(
-				z.object({
-					projectName: z.string(),
-					domain: z.string(),
-					language: z.string(),
-					meaning: z.string(),
-					tldCountry: z.string(),
+	try {
+		// Validate request body
+		const body = await req.json().catch(() => null);
+		if (
+			!body ||
+			!Array.isArray(body.keywords) ||
+			body.keywords.length === 0
+		) {
+			return new Response(
+				JSON.stringify({
+					error: "Invalid request. Expected non-empty keywords array",
 				}),
-			),
-		}),
-	});
+				{ status: 400 },
+			);
+		}
 
-	return result.toJsonResponse();
+		const { keywords } = body;
+		const promptString = keywords.join(", ");
+
+		try {
+			const result = await generateObject({
+				model: google("gemini-1.5-flash-latest"),
+				system: systemPrompt,
+				prompt: promptString,
+				schema: z.object({
+					domains: z.array(
+						z.object({
+							projectName: z.string(),
+							domain: z.string(),
+							language: z.string(),
+							meaning: z.string(),
+							tldCountry: z.string(),
+						}),
+					),
+				}),
+			});
+
+			return result.toJsonResponse();
+		} catch (aiError) {
+			console.error("AI Generation Error:", aiError);
+			return new Response(
+				JSON.stringify({
+					message: "Failed to generate domain suggestions",
+					error: (aiError as Error).message,
+				}),
+				{ status: 500 },
+			);
+		}
+	} catch (error) {
+		console.error("Server Error:", error);
+		const errorMessage = (error as Error).message;
+		return new Response(
+			JSON.stringify({
+				message: "Internal server error",
+				error: errorMessage,
+			}),
+			{ status: 500 },
+		);
+	}
 }
