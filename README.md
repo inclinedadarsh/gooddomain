@@ -44,4 +44,3 @@ Feel free to create an issue for bugs, feature requests, or general suggestions.
 ---
 
 **Made with ❤️ by [Adarsh](https://x.com/inclinedadarsh) and AI.**
-```
