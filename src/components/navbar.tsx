@@ -12,9 +12,7 @@ const Navbar = () => {
 					className="font-bold text-xl font-serif tracking-wider"
 					href="https://www.gooddoma.in/"
 				>
-					GoodDoma
-					<span className="text-sm text-muted-foreground">(.)</span>
-					in
+					Good Domain
 				</Link>
 				<div className="flex items-center gap-4">
 					<Link
