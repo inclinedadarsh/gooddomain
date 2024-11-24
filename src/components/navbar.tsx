@@ -8,7 +8,12 @@ const Navbar = () => {
 	return (
 		<nav id="navbar" className="my-10">
 			<ViewContainer className="flex justify-between items-center">
-				<span className="font-bold text-xl">GoodDomain</span>
+				<Link
+					className="font-bold text-xl"
+					href="https://www.gooddoma.in/"
+				>
+					GoodDomain
+				</Link>
 				<div className="flex items-center gap-4">
 					<Link
 						href="https://x.com/inclinedadarsh"
