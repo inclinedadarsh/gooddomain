@@ -1,6 +1,6 @@
 # Good Domain 🌟
 
-Welcome to **Good Domain**, your one-stop solution for generating creative project and domain names! Just enter a few keywords related to your project, and we'll suggest cool and catchy names for both your project and domain.
+Welcome to [**Good Domain**](https://www.gooddoma.in/), your one-stop solution for generating creative project and domain names! Just enter a few keywords related to your project, and we'll suggest cool and catchy names for both your project and domain.
 
 ---
 
